@@ -13,7 +13,7 @@ namespace APIfilms.Models.EntityFramework
             if (!optionsBuilder.IsConfigured)
             {
                 // À adapter avec vos paramètres de connexion réels
-                optionsBuilder.UseNpgsql("Host=localhost;Database=MonTpFilm;Username=postgres;Password=votre_mdp");
+                optionsBuilder.UseNpgsql("Host=localhost;Database=FilmsRatingsDB;Username=postgres;Password=postgres");
             }
         }
 
@@ -34,7 +34,7 @@ namespace APIfilms.Models.EntityFramework
             // --- Configuration Notation (Clé composite + FK nommées + Restrict) ---
             modelBuilder.Entity<Notation>(entity =>
             {
-                entity.HasKey(n => new { n.UtilisateurId, n.FilmId });
+                entity.HasKey(n => new { n.UtilisateurId, n.FilmId }).HasName("pk_not");
 
                 entity.HasOne(n => n.UtilisateurNotant)
                     .WithMany(u => u.NotesUtilisateur)
