@@ -4,6 +4,7 @@ namespace APIfilms.Models.EntityFramework
 {
     public class FilmRatingsDBContext : DbContext
     {
+        public FilmRatingsDBContext(DbContextOptions<FilmRatingsDBContext> options) : base(options) { }
         public DbSet<Film> Films { get; set; }
         public DbSet<Utilisateur> Utilisateurs { get; set; }
         public DbSet<Notation> Notations { get; set; }
