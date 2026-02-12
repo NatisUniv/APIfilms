@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TP4_partie_1.Controllers;
+using TP4_partie_1.Models.DataManager;
 using TP4_partie_1.Models.EntityFramework;
+using TP4_partie_1.Models.Repository;
 
 namespace TP4_partie_1.Controllers.Tests
 {
@@ -16,16 +18,18 @@ namespace TP4_partie_1.Controllers.Tests
     {
         private UtilisateursController _controller;
         private FilmRatingsDBContext _context;
+        private IDataRepository<Utilisateur> dataRepository;
 
         [TestInitialize]
         public void Init()
         {
             var options = new DbContextOptionsBuilder<FilmRatingsDBContext>()
-                .UseNpgsql("Host=localhost;Port=5432;Database=FilmsDB;Username=postgres;Password=postgres")
+                .UseNpgsql("Host=localhost;Port=5432;Database=FilmsRatingsDB;Username=postgres;Password=postgres")
                 .Options;
 
             _context = new FilmRatingsDBContext(options);
-            _controller = new UtilisateursController(_context);
+            dataRepository = new UtilisateurManager(_context);
+            _controller = new UtilisateursController(dataRepository);
         }
 
         [TestMethod]
@@ -110,8 +114,7 @@ namespace TP4_partie_1.Controllers.Tests
 
             Assert.IsInstanceOfType(actionResult.Result, typeof(CreatedAtActionResult));
 
-            Utilisateur userRecupere = _context.Utilisateurs
-                .FirstOrDefault(u => u.Mail.ToUpper() == userAtester.Mail.ToUpper());
+            Utilisateur userRecupere = _context.Utilisateurs.FirstOrDefault(u => u.Mail.ToUpper() == userAtester.Mail.ToUpper());
 
             Assert.IsNotNull(userRecupere, "L'utilisateur n'a pas été trouvé dans la BDD.");
             Assert.AreEqual(userAtester.Nom, userRecupere.Nom);
