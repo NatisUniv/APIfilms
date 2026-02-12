@@ -1,0 +1,6 @@
+@TP4_partie_1_HostAddress = http://localhost:5001
+
+GET {{TP4_partie_1_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

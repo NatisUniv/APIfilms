@@ -1,23 +1,16 @@
-using APIfilms.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using TP4_partie_1.Models.EntityFramework;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-
-var connectionString = builder.Configuration.GetConnectionString("FilmRatingsPostgres");
-builder.Services.AddDbContext<FilmRatingsDBContext>(options =>
-    options.UseNpgsql(connectionString));
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<FilmRatingsDBContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("FilmRatingsDBContext")));
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -31,10 +24,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
-
-
-
-
-
-

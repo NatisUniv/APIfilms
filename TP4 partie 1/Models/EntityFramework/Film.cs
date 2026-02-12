@@ -1,14 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace APIfilms.Models.EntityFramework
+namespace TP4_partie_1.Models.EntityFramework
 {
     [Table("t_e_film_flm")]
     public class Film
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("flm_id")]
         public int FilmId { get; set; }
 
@@ -28,6 +27,7 @@ namespace APIfilms.Models.EntityFramework
         [Column("flm_genre", TypeName = "varchar(30)")]
         public string? Genre { get; set; }
 
+        [InverseProperty(nameof(Notation.FilmNote))]
         public virtual ICollection<Notation> NotesFilm { get; set; } = new List<Notation>();
     }
 }
